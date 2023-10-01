@@ -1,4 +1,5 @@
 using Drivers.Api.Configurations;
+using Drivers.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#region DI
+builder.Services.AddSingleton<DriverService>();
+#endregion
 
 builder.Services.Configure<DataBaseSettings>(builder.Configuration.GetSection("MongoDatabase"));
 

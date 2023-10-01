@@ -14,5 +14,17 @@ namespace Drivers.Api.Services
             var mongoDb = mongoClient.GetDatabase(_databaseSettings.Value.DatabaseName); //the database
             _driverCollection = mongoDb.GetCollection<Driver>(_databaseSettings.Value.CollectionName); // the collection to work with
         }
+
+        public async Task<List<Driver>> GetAsync() => await _driverCollection.Find(_ => true).ToListAsync();
+
+        public async Task<Driver> GetAsync(string id) => await _driverCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+        public async Task CreateAsync(Driver driver) => await _driverCollection.InsertOneAsync(driver);
+
+        public async Task UpdateAsync(string id, Driver driver) => await _driverCollection.ReplaceOneAsync(x => x.Id == id, driver);
+
+        public async Task RemoveAsync(string id) => await _driverCollection.DeleteOneAsync(x => x.Id == id);
+
+
     }
 }
